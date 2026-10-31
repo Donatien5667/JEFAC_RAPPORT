@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: jefac-rapports
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATABASE_PATH
+        value: /data/jefac.sqlite
+      - key: SETUP_KEY
+        sync: false
+    disk:
+      name: jefac-data
+      mountPath: /data
+      sizeGB: 1
